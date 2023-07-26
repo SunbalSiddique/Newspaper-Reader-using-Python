@@ -1,0 +1,25 @@
+# First, I used this command in Windows Powershell: pip install pywin32
+
+def speak(str):
+    from win32com.client import Dispatch
+    speak = Dispatch("SAPI.SpVoice")
+    speak.Speak(str)
+
+import requests
+url = ('https://newsapi.org/v2/top-headlines?'
+       'country=in&'
+       'apiKey=36ddcc807d1d4df58ccfeb2797aa9176')
+response = requests.get(url)
+print(response.json())
+
+if __name__ == '__main__':
+    i = 0
+    newslist = response.json()
+    articles = newslist['articles']
+
+    for i in range(len(articles)):
+        purinews = articles[i]
+        headlines = purinews['title']
+        print(f"This is Headline No. {i+1}: {headlines}")
+        speak(f"This is Headline No. {i+1}: {headlines}")
+        i += 1
